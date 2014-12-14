@@ -5,12 +5,13 @@ import org.gnome.gdk.Rectangle;
 import org.gnome.gtk.DrawingArea;
 import org.gnome.gtk.Widget;
 import org.maxmati.games.life.Board;
+import org.maxmati.games.life.OnResizeListener;
 import org.maxmati.games.life.OnTickListener;
 
 /**
  * Created by maxmati on 12/12/14.
  */
-public class BoardArea implements Widget.Draw, Widget.SizeAllocate, OnTickListener {
+public class BoardArea implements Widget.Draw, Widget.SizeAllocate, OnTickListener, OnResizeListener {
     private final DrawingArea area;
     private final Board board;
     private int areaWidth;
@@ -22,6 +23,7 @@ public class BoardArea implements Widget.Draw, Widget.SizeAllocate, OnTickListen
         this.board = board;
 
         board.setOnTickListener(this);
+        board.setOnResizeListener(this);
 
         area.connect((Widget.Draw) this);
         area.connect((Widget.SizeAllocate) this);
@@ -34,8 +36,8 @@ public class BoardArea implements Widget.Draw, Widget.SizeAllocate, OnTickListen
     @Override
     public boolean onDraw(Widget source, Context cr) {
 
-        int rectangleWidth = areaWidth / board.getWidth();
-        int rectangleHeight = areaHeight / board.getHeight();
+        double rectangleWidth = areaWidth / (double) board.getWidth();
+        double rectangleHeight = areaHeight / (double) board.getHeight();
         cr.setLineWidth(2);
         for (int i = 0; i < board.getWidth(); ++i)
             for (int j = 0; j < board.getHeight(); ++j) {
@@ -62,6 +64,11 @@ public class BoardArea implements Widget.Draw, Widget.SizeAllocate, OnTickListen
 
     @Override
     public void onTick() {
+        area.queueDraw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
         area.queueDraw();
     }
 }

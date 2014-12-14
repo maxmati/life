@@ -7,25 +7,25 @@ public class BoardTest {
 
     @Test
     public void createBoardWithGivenSize() {
-        Board board = new Board(20, 50);
+        Board board = new Board(50, 20);
         Assert.assertEquals("Board have to have same height as while creating (" + 20 + ")", 20, board.getHeight());
         Assert.assertEquals("Board have to have same width as while creating (" + 50 + ")", 50, board.getWidth());
     }
 
     @Test
     public void resizeBoard() {
-        Board board = new Board(5, 6);
+        Board board = new Board(6, 5);
         Assert.assertEquals(5, board.getHeight());
         Assert.assertEquals(6, board.getWidth());
 
-        board.resize(7, 8);
+        board.resize(8, 7);
         Assert.assertEquals(7, board.getHeight());
         Assert.assertEquals(8, board.getWidth());
     }
 
     @Test
     public void gettingJustSettedCell() {
-        Board board = new Board(20, 50);
+        Board board = new Board(50, 20);
 
         board.setCellState(1, 5, true);
         Assert.assertEquals(true, board.getCellState(1, 5));
@@ -33,7 +33,7 @@ public class BoardTest {
 
     @Test
     public void atBeginningAllCellsShouldBeDead() {
-        Board board = new Board(20, 50);
+        Board board = new Board(50, 20);
 
         for (int i = 0; i < board.getHeight(); ++i)
             for (int j = 0; j < board.getWidth(); ++j)
@@ -161,6 +161,25 @@ public class BoardTest {
         Assert.assertTrue(tickedMock.check());
     }
 
+    @Test
+    public void checkOnResizeListener() {
+        OnResizeListenerMock resizeMock = new OnResizeListenerMock();
+        Board board = new Board(5, 5);
+        board.setOnResizeListener(resizeMock);
+
+        Assert.assertEquals(-1, resizeMock.getHeight());
+        Assert.assertEquals(-1, resizeMock.getWidth());
+
+        board.resize(7, 6);
+        Assert.assertEquals(6, resizeMock.getHeight());
+        Assert.assertEquals(7, resizeMock.getWidth());
+
+        board.resize(8, 9);
+        Assert.assertEquals(9, resizeMock.getHeight());
+        Assert.assertEquals(8, resizeMock.getWidth());
+
+    }
+
     private void setBoard(boolean[][] before, Board board) {
         for (int i = 0; i < before.length; ++i)
             for (int j = 0; j < before[i].length; ++j)
@@ -171,6 +190,25 @@ public class BoardTest {
         for (int i = 0; i < expected.length; ++i)
             for (int j = 0; j < expected[i].length; ++j)
                 Assert.assertEquals(expected[i][j], actual.getCellState(j, i));
+    }
+
+    private class OnResizeListenerMock implements OnResizeListener {
+        int width = -1;
+        int height = -1;
+
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
+        }
+
+        @Override
+        public void resize(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
     }
 
     private class OnTickListenerMock implements OnTickListener {

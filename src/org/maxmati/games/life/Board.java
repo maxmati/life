@@ -13,9 +13,10 @@ public class Board {
     private Integer[] born = {3};
     private Integer[] survive = {2, 3};
     private OnTickListener onTickListener;
+    private OnResizeListener onResizeListener;
 
-    public Board(int height, int width) {
-        resize(height, width);
+    public Board(int width, int height) {
+        resize(width, height);
     }
 
     public int getHeight() {
@@ -73,16 +74,22 @@ public class Board {
         this.born = born;
     }
 
-    public void resize(int height, int width) {
+    public void resize(int width, int height) {
         this.height = height;
         this.width = width;
 
         cells = new Cell[height * width];
         for (int i = 0; i < height * width; ++i)
             cells[i] = new Cell();
+
+        if (this.onResizeListener != null) this.onResizeListener.resize(width, height);
     }
 
     public void setOnTickListener(OnTickListener onTickListener) {
         this.onTickListener = onTickListener;
+    }
+
+    public void setOnResizeListener(OnResizeListener onResizeListener) {
+        this.onResizeListener = onResizeListener;
     }
 }

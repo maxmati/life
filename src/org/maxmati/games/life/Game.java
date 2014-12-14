@@ -20,9 +20,11 @@ public class Game {
     public static void main(String[] args) {
         Gtk.init(args);
 
-        board.setCellState(2, 2, true);
         board.setCellState(1, 2, true);
+        board.setCellState(2, 3, true);
+        board.setCellState(3, 1, true);
         board.setCellState(3, 2, true);
+        board.setCellState(3, 3, true);
 
 
         Builder builder = new Builder();

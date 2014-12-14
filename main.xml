@@ -11,10 +11,10 @@
     </object>
     <object class="GtkAdjustment" id="tickRate">
         <property name="lower">0.10000000000000001</property>
-        <property name="upper">5</property>
+        <property name="upper">2</property>
         <property name="value">0.10000000000000001</property>
         <property name="step_increment">0.10000000000000001</property>
-        <property name="page_increment">0.5</property>
+        <property name="page_increment">0.10000000000000001</property>
     </object>
     <object class="GtkAdjustment" id="width">
         <property name="lower">1</property>
@@ -32,8 +32,8 @@
                 <property name="can_focus">False</property>
                 <child>
                     <object class="GtkDrawingArea" id="board">
-                        <property name="width_request">200</property>
-                        <property name="height_request">200</property>
+                        <property name="width_request">300</property>
+                        <property name="height_request">300</property>
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                     </object>
@@ -160,12 +160,10 @@
                             </packing>
                         </child>
                         <child>
-                            <object class="GtkScale" id="scale1">
+                            <object class="GtkScale" id="tickRateScale">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="adjustment">tickRate</property>
-                                <property name="lower_stepper_sensitivity">on</property>
-                                <property name="upper_stepper_sensitivity">on</property>
                                 <property name="round_digits">1</property>
                                 <property name="has_origin">False</property>
                                 <property name="value_pos">right</property>
@@ -182,7 +180,7 @@
                                 <property name="can_focus">False</property>
                                 <property name="homogeneous">True</property>
                                 <child>
-                                    <object class="GtkButton" id="button3">
+                                    <object class="GtkButton" id="tickStartButton">
                                         <property name="label" translatable="yes">Start</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
@@ -195,7 +193,7 @@
                                     </packing>
                                 </child>
                                 <child>
-                                    <object class="GtkButton" id="button4">
+                                    <object class="GtkButton" id="tickStopButton">
                                         <property name="label" translatable="yes">Stop</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>

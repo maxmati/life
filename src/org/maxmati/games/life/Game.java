@@ -12,7 +12,7 @@ import java.text.ParseException;
  */
 public class Game {
 
-    static Board board = new Board(20, 20);
+    static Board board = new Board(20, 19);
 
     public static void main(String[] args) {
         Gtk.init(args);

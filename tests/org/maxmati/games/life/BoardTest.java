@@ -147,6 +147,31 @@ public class BoardTest {
     }
 
     @Test
+    public void tickOnNonSquereBoard() {
+        boolean[][] before = {
+                {true, true},
+                {true, true},
+                {true, true}
+        };
+
+        boolean[][] after = {
+                {true, true},
+                {false, false},
+                {true, true}
+        };
+
+        Board board = new Board(2, 3);
+
+        setBoard(before, board);
+        compareBoard(before, board);
+
+        board.tick();
+
+        compareBoard(after, board);
+    }
+
+
+    @Test
     public void checkOnTickListener() {
         OnTickListenerMock tickedMock = new OnTickListenerMock();
         Board board = new Board(5, 5);

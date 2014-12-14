@@ -28,7 +28,7 @@ public class Board {
     }
 
     private Cell getCell(int x, int y) {
-        return cells[y * width + x];
+        return cells[x + y * width];
     }
 
     public void setCellState(int x, int y, boolean alive) {
@@ -41,15 +41,15 @@ public class Board {
 
     public void tick() {
         Cell[] tmpCells = new Cell[getHeight() * getWidth()];
-        for (int i = 0; i < getHeight() * getHeight(); ++i) tmpCells[i] = new Cell();
+        for (int i = 0; i < getHeight() * getWidth(); ++i) tmpCells[i] = new Cell();
 
-        for (int i = 0; i < getWidth(); ++i)
-            for (int j = 0; j < getHeight(); ++j) {
-                int aliveCellsAround = countAliveCellsAround(i, j);
-                if (getCellState(i, j) && Arrays.asList(survive).contains(aliveCellsAround))
-                    tmpCells[i + j * getHeight()].setAlive(true);
-                if (!getCellState(i, j) && Arrays.asList(born).contains(aliveCellsAround))
-                    tmpCells[i + j * getHeight()].setAlive(true);
+        for (int i = 0; i < getHeight(); ++i)
+            for (int j = 0; j < getWidth(); ++j) {
+                int aliveCellsAround = countAliveCellsAround(j, i);
+                if (getCellState(j, i) && Arrays.asList(survive).contains(aliveCellsAround))
+                    tmpCells[j + i * getWidth()].setAlive(true);
+                if (!getCellState(j, i) && Arrays.asList(born).contains(aliveCellsAround))
+                    tmpCells[j + i * getWidth()].setAlive(true);
             }
 
         cells = tmpCells;

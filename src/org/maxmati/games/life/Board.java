@@ -7,19 +7,15 @@ import java.util.Arrays;
  * Created by maxmati on 11/7/14.
  */
 public class Board {
-    private final int height;
-    private final int width;
+    private int height;
+    private int width;
     private Cell[] cells;
     private Integer[] born = {3};
     private Integer[] survive = {2, 3};
+    private OnTickListener onTickListener;
 
     public Board(int height, int width) {
-        this.height = height;
-        this.width = width;
-
-        cells = new Cell[height * width];
-        for (int i = 0; i < height * width; ++i)
-            cells[i] = new Cell();
+        resize(height, width);
     }
 
     public int getHeight() {
@@ -56,6 +52,8 @@ public class Board {
             }
 
         cells = tmpCells;
+
+        if (onTickListener != null) onTickListener.onTick();
     }
 
     private int countAliveCellsAround(int x, int y) {
@@ -73,5 +71,18 @@ public class Board {
     public void changeRules(Integer[] survive, Integer[] born) {
         this.survive = survive;
         this.born = born;
+    }
+
+    public void resize(int height, int width) {
+        this.height = height;
+        this.width = width;
+
+        cells = new Cell[height * width];
+        for (int i = 0; i < height * width; ++i)
+            cells[i] = new Cell();
+    }
+
+    public void setOnTickListener(OnTickListener onTickListener) {
+        this.onTickListener = onTickListener;
     }
 }

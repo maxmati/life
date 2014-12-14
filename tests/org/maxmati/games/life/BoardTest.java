@@ -13,6 +13,17 @@ public class BoardTest {
     }
 
     @Test
+    public void resizeBoard() {
+        Board board = new Board(5, 6);
+        Assert.assertEquals(5, board.getHeight());
+        Assert.assertEquals(6, board.getWidth());
+
+        board.resize(7, 8);
+        Assert.assertEquals(7, board.getHeight());
+        Assert.assertEquals(8, board.getWidth());
+    }
+
+    @Test
     public void gettingJustSettedCell() {
         Board board = new Board(20, 50);
 
@@ -135,6 +146,21 @@ public class BoardTest {
 
     }
 
+    @Test
+    public void checkOnTickListener() {
+        OnTickListenerMock tickedMock = new OnTickListenerMock();
+        Board board = new Board(5, 5);
+        board.setOnTickListener(tickedMock);
+        Assert.assertFalse(tickedMock.check());
+        board.tick();
+        Assert.assertTrue(tickedMock.check());
+
+        tickedMock.reset();
+        Assert.assertFalse(tickedMock.check());
+        board.tick();
+        Assert.assertTrue(tickedMock.check());
+    }
+
     private void setBoard(boolean[][] before, Board board) {
         for (int i = 0; i < before.length; ++i)
             for (int j = 0; j < before[i].length; ++j)
@@ -146,4 +172,22 @@ public class BoardTest {
             for (int j = 0; j < expected[i].length; ++j)
                 Assert.assertEquals(expected[i][j], actual.getCellState(j, i));
     }
+
+    private class OnTickListenerMock implements OnTickListener {
+        boolean ticked = false;
+
+        public void reset() {
+            ticked = false;
+        }
+
+        public boolean check() {
+            return ticked;
+        }
+
+        @Override
+        public void onTick() {
+            ticked = true;
+        }
+    }
+
 }

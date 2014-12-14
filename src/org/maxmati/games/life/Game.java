@@ -1,11 +1,8 @@
 package org.maxmati.games.life;
 
 import org.gnome.gtk.Builder;
-import org.gnome.gtk.DrawingArea;
 import org.gnome.gtk.Gtk;
-import org.gnome.gtk.Window;
-import org.maxmati.games.life.ui.BoardArea;
-import org.maxmati.games.life.ui.ControlPanel;
+import org.maxmati.games.life.ui.GameWindow;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
@@ -37,17 +34,7 @@ public class Game {
             e.printStackTrace();
         }
 
-        Window window = (Window) builder.getObject("window");
-        window.showAll();
-
-        DrawingArea area = (DrawingArea) builder.getObject("board");
-        BoardArea boardArea = new BoardArea(area, board);
-
-
-        ControlPanel panel = new ControlPanel(builder, board);
-
-
-        //new GameWindow(board);
+        GameWindow gameWindow = new GameWindow(builder, board);
         Gtk.main();
     }
 }

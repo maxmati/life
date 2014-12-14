@@ -9,6 +9,13 @@
         <property name="step_increment">1</property>
         <property name="page_increment">10</property>
     </object>
+    <object class="GtkAdjustment" id="tickRate">
+        <property name="lower">0.10000000000000001</property>
+        <property name="upper">5</property>
+        <property name="value">0.10000000000000001</property>
+        <property name="step_increment">0.10000000000000001</property>
+        <property name="page_increment">0.5</property>
+    </object>
     <object class="GtkAdjustment" id="width">
         <property name="lower">1</property>
         <property name="upper">100</property>
@@ -156,7 +163,11 @@
                             <object class="GtkScale" id="scale1">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="adjustment">tickRate</property>
+                                <property name="lower_stepper_sensitivity">on</property>
+                                <property name="upper_stepper_sensitivity">on</property>
                                 <property name="round_digits">1</property>
+                                <property name="has_origin">False</property>
                                 <property name="value_pos">right</property>
                             </object>
                             <packing>

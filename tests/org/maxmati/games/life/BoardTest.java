@@ -1,9 +1,17 @@
 package org.maxmati.games.life;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
+
+import java.io.File;
+import java.io.IOException;
 
 public class BoardTest {
+
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
 
     @Test
     public void createBoardWithGivenSize() {
@@ -187,7 +195,7 @@ public class BoardTest {
     }
 
     @Test
-    public void checkOnResizeListener() {
+    public void checkOnResizeListenerTest() {
         OnResizeListenerMock resizeMock = new OnResizeListenerMock();
         Board board = new Board(5, 5);
         board.setOnResizeListener(resizeMock);
@@ -203,6 +211,66 @@ public class BoardTest {
         Assert.assertEquals(9, resizeMock.getHeight());
         Assert.assertEquals(8, resizeMock.getWidth());
 
+    }
+
+    @Test
+    public void saveAndRestoreStateTest() throws IOException {
+        boolean[][] state = {
+                {true, true, false, false, true},
+                {true, false, false, true, true},
+                {false, true, false, false, false},
+                {true, true, false, false, true},
+                {true, true, true, false, false},
+                {true, true, true, true, true}
+        };
+
+        boolean[][] smallState = {
+                {true, true, false},
+                {true, false, false}
+        };
+        File file = folder.newFile();
+        Board board = new Board(5, 6);
+        setBoard(state, board);
+        compareBoard(state, board);
+
+        board.saveState(file);
+
+        board = new Board(5, 6);
+        board.restoreState(file);
+
+        compareBoard(state, board);
+
+        board = new Board(3, 2);
+        board.restoreState(file);
+
+        compareBoard(smallState, board);
+    }
+
+    @Test
+    public void getRulesTest() {
+        Board board = new Board(1, 1);
+
+        Integer[][] survive = {
+                {1, 5, 3},
+                {2, 3},
+                {},
+                {0, 1, 2, 3, 4, 5, 6, 7, 8}
+        };
+
+        Integer[][] born = {
+                {1, 2, 0},
+                {},
+                {0, 1, 2, 3, 4, 5, 6, 7, 8},
+                {6, 8}
+        };
+
+        assert born.length == survive.length;
+
+        for (int i = 0; i < born.length; ++i) {
+            board.changeRules(survive[i], born[i]);
+            Assert.assertArrayEquals(survive[i], board.getSurvive());
+            Assert.assertArrayEquals(born[i], board.getBorn());
+        }
     }
 
     private void setBoard(boolean[][] before, Board board) {

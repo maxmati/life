@@ -1,7 +1,11 @@
 package org.maxmati.games.life;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
  * Created by maxmati on 11/7/14.
@@ -91,5 +95,35 @@ public class Board {
 
     public void setOnResizeListener(OnResizeListener onResizeListener) {
         this.onResizeListener = onResizeListener;
+    }
+
+    public void saveState(File file) throws FileNotFoundException {
+        PrintWriter writer = new PrintWriter(file);
+        for (int i = 0; i < getHeight(); ++i) {
+            for (int j = 0; j < getWidth(); ++j) {
+                writer.print(getCellState(j, i));
+                writer.print(" ");
+            }
+            writer.println();
+        }
+        writer.close();
+    }
+
+    public void restoreState(File file) throws FileNotFoundException {
+        Scanner fileScanner = new Scanner(file);
+
+        for (int i = 0; i < getHeight() && fileScanner.hasNextLine(); ++i) {
+            Scanner line = new Scanner(fileScanner.nextLine());
+            for (int j = 0; j < getWidth() && line.hasNextBoolean(); ++j)
+                setCellState(j, i, line.nextBoolean());
+        }
+    }
+
+    public Integer[] getSurvive() {
+        return survive;
+    }
+
+    public Integer[] getBorn() {
+        return born;
     }
 }

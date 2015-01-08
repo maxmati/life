@@ -20,7 +20,7 @@ public class GameWindow {
 
         boardArea = new BoardArea((DrawingArea) builder.getObject("board"), board);
 
-        panel = new ControlPanel(builder, board);
+        panel = new ControlPanel(builder, board, window, new RulesDialog(builder, board));
 
         window.connect(new Window.DeleteEvent() {
             @Override

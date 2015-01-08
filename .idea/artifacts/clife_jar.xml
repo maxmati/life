@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="clife:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/clife_jar</output-path>
+    <root id="archive" name="clife.jar">
+      <element id="module-output" name="clife" />
+      <element id="extracted-dir" path="/usr/share/java-gnome-4.1/lib/gtk-4.1.jar" path-in-jar="/" />
+      <element id="library" level="project" name="gtk-4.1" />
+    </root>
+  </artifact>
+</component>

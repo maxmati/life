@@ -3,6 +3,7 @@ package org.maxmati.games.life.ui;
 import org.freedesktop.cairo.Context;
 import org.gnome.gdk.EventButton;
 import org.gnome.gdk.EventMask;
+import org.gnome.gdk.EventMotion;
 import org.gnome.gdk.Rectangle;
 import org.gnome.gtk.DrawingArea;
 import org.gnome.gtk.Widget;
@@ -13,11 +14,14 @@ import org.maxmati.games.life.OnTickListener;
 /**
  * Created by maxmati on 12/12/14.
  */
-public class BoardArea implements Widget.Draw, Widget.SizeAllocate, Widget.ButtonPressEvent, OnTickListener, OnResizeListener {
+public class BoardArea implements Widget.Draw, Widget.SizeAllocate, Widget.ButtonReleaseEvent, Widget.ButtonPressEvent, Widget.MotionNotifyEvent, OnTickListener, OnResizeListener {
     private final DrawingArea area;
     private final Board board;
     private int areaWidth;
     private int areaHeight;
+    private int lastY;
+    private int lastX;
+    private boolean pressed = false;
 
 
     public BoardArea(DrawingArea area, Board board) {
@@ -28,9 +32,13 @@ public class BoardArea implements Widget.Draw, Widget.SizeAllocate, Widget.Butto
         board.setOnResizeListener(this);
 
         area.addEvents(EventMask.BUTTON_PRESS);
+        area.addEvents(EventMask.POINTER_MOTION);
+        area.addEvents(EventMask.BUTTON_RELEASE);
         area.connect((Widget.Draw) this);
         area.connect((Widget.SizeAllocate) this);
         area.connect((Widget.ButtonPressEvent) this);
+        area.connect((Widget.MotionNotifyEvent) this);
+        area.connect((Widget.ButtonReleaseEvent) this);
 
         areaHeight = area.getAllocatedHeight();
         areaWidth = area.getAllocatedWidth();
@@ -84,7 +92,35 @@ public class BoardArea implements Widget.Draw, Widget.SizeAllocate, Widget.Butto
         int y = (int) (event.getY() / rectangleHeight);
         board.setCellState(x, y, !board.getCellState(x, y));
         area.queueDraw();
+        lastX = x;
+        lastY = y;
+        pressed = true;
 
+        return false;
+    }
+
+
+    @Override
+    public boolean onMotionNotifyEvent(Widget source, EventMotion event) {
+        if (event.getX() < 0 || event.getX() > areaWidth) return false;
+        if (event.getY() < 0 || event.getY() > areaHeight) return false;
+        double rectangleWidth = areaWidth / (double) board.getWidth();
+        double rectangleHeight = areaHeight / (double) board.getHeight();
+        int x = (int) (event.getX() / rectangleWidth);
+        int y = (int) (event.getY() / rectangleHeight);
+        if (pressed)
+            if (lastX != x || lastY != y) {
+                board.setCellState(x, y, !board.getCellState(x, y));
+                area.queueDraw();
+                lastX = x;
+                lastY = y;
+            }
+        return false;
+    }
+
+    @Override
+    public boolean onButtonReleaseEvent(Widget source, EventButton event) {
+        pressed = false;
         return false;
     }
 }

@@ -79,12 +79,20 @@ public class Board {
     }
 
     public void resize(int width, int height) {
+        Cell[] newCells = new Cell[height * width];
+        for (int i = 0; i < height * width; ++i)
+            newCells[i] = new Cell();
+
+        if (cells != null)
+            for (int y = 0; y < Math.min(this.height, height); ++y)
+                for (int x = 0; x < Math.min(this.width, width); ++x)
+                    newCells[y * width + x].setAlive(getCellState(x, y));
+
+
         this.height = height;
         this.width = width;
 
-        cells = new Cell[height * width];
-        for (int i = 0; i < height * width; ++i)
-            cells[i] = new Cell();
+        this.cells = newCells;
 
         if (this.onResizeListener != null) this.onResizeListener.resize(width, height);
     }

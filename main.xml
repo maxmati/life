@@ -385,6 +385,71 @@
             <action-widget response="1">changeRulesAccept</action-widget>
         </action-widgets>
     </object>
+    <object class="GtkDialog" id="LoadStateDialog">
+        <property name="can_focus">False</property>
+        <property name="type_hint">dialog</property>
+        <child internal-child="vbox">
+            <object class="GtkBox" id="dialog-vbox2">
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <property name="spacing">2</property>
+                <child internal-child="action_area">
+                    <object class="GtkButtonBox" id="dialog-action_area2">
+                        <property name="can_focus">False</property>
+                        <property name="layout_style">end</property>
+                        <child>
+                            <object class="GtkButton" id="cancelLoadStateButton">
+                                <property name="label" translatable="yes">Cancel</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                            </object>
+                            <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">0</property>
+                            </packing>
+                        </child>
+                        <child>
+                            <object class="GtkButton" id="acceptLoadStateButton">
+                                <property name="label" translatable="yes">Accept</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                            </object>
+                            <packing>
+                                <property name="expand">True</property>
+                                <property name="fill">True</property>
+                                <property name="position">1</property>
+                            </packing>
+                        </child>
+                    </object>
+                    <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="pack_type">end</property>
+                        <property name="position">0</property>
+                    </packing>
+                </child>
+                <child>
+                    <object class="GtkRadioButton" id="radiobutton1">
+                        <property name="label" translatable="yes">radiobutton</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="xalign">0</property>
+                        <property name="active">True</property>
+                        <property name="draw_indicator">True</property>
+                    </object>
+                    <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                    </packing>
+                </child>
+            </object>
+        </child>
+    </object>
     <object class="GtkAdjustment" id="height">
         <property name="lower">1</property>
         <property name="upper">100</property>
@@ -608,38 +673,12 @@
                             </packing>
                         </child>
                         <child>
-                            <object class="GtkBox" id="box5">
+                            <object class="GtkButton" id="clearBoardButton">
+                                <property name="label" translatable="yes">Clear</property>
                                 <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <child>
-                                    <object class="GtkButton" id="saveButton">
-                                        <property name="label" translatable="yes">Save</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <property name="relief">half</property>
-                                        <property name="xalign">0.49000000953674316</property>
-                                    </object>
-                                    <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">0</property>
-                                    </packing>
-                                </child>
-                                <child>
-                                    <object class="GtkButton" id="loadButton">
-                                        <property name="label" translatable="yes">Load</property>
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="receives_default">True</property>
-                                        <property name="yalign">0.4699999988079071</property>
-                                    </object>
-                                    <packing>
-                                        <property name="expand">True</property>
-                                        <property name="fill">True</property>
-                                        <property name="position">1</property>
-                                    </packing>
-                                </child>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <property name="yalign">0.60000002384185791</property>
                             </object>
                             <packing>
                                 <property name="expand">False</property>

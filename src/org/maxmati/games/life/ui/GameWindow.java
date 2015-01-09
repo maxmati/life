@@ -17,13 +17,7 @@ public class GameWindow {
     public GameWindow(Builder builder, final Board board) {
         window = (Window) builder.getObject("window");
         window.showAll();
-        window.connect(new Window.DeleteEvent() {
-            @Override
-            public boolean onDeleteEvent(Widget source, Event event) {
-                Gtk.mainQuit();
-                return false;
-            }
-        });
+        window.showAll();
 
         boardArea = new BoardArea((DrawingArea) builder.getObject("board"), board);
 

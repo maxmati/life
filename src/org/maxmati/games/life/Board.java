@@ -97,6 +97,13 @@ public class Board {
         if (this.onResizeListener != null) this.onResizeListener.resize(width, height);
     }
 
+    public void clear() {
+        for (int i = 0; i < height * width; ++i)
+            cells[i].setAlive(false);
+
+        if (onTickListener != null) onTickListener.onTick();
+    }
+
     public void setOnTickListener(OnTickListener onTickListener) {
         this.onTickListener = onTickListener;
     }

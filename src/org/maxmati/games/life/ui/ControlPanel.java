@@ -4,8 +4,6 @@ import org.gnome.gtk.*;
 import org.maxmati.games.life.Board;
 import org.maxmati.games.life.TickTimerTask;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.Timer;
 
 /**
@@ -25,9 +23,9 @@ public class ControlPanel {
     private final Button tickStopButton;
     private final Scale tickRateScale;
     private final Adjustment tickRate;
-    private final Button stateSaveButton;
     private final Button changeRulesButton;
     private final RulesDialog changeRulesDialog;
+    private final Button clearButton;
     private TickTimerTask tickTask;
 
     public ControlPanel(Builder builder, final Board board, final Window window, RulesDialog changeRulesDialog) {
@@ -91,24 +89,11 @@ public class ControlPanel {
             }
         });
 
-        stateSaveButton = (Button) builder.getObject("saveButton");
-        stateSaveButton.connect(new Button.Clicked() {
+        clearButton = (Button) builder.getObject("clearBoardButton");
+        clearButton.connect(new Button.Clicked() {
             @Override
             public void onClicked(Button source) {
-                FileChooserDialog chooser = new FileChooserDialog(
-                        "Select file to save",
-                        window,
-                        FileChooserAction.SAVE
-                );
-
-
-                if (chooser.run() == ResponseType.OK) {
-                    try {
-                        board.saveState(new File(chooser.getFilename()));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-                }
+                board.clear();
             }
         });
 
@@ -119,6 +104,16 @@ public class ControlPanel {
                 ControlPanel.this.changeRulesDialog.run();
             }
         });
+
+    }
+
+    public void stopTickTimer() {
+        if (tickTask != null) {
+            tickTask.cancel();
+            tickTask = null;
+        }
+        timer.cancel();
+        timer.purge();
 
     }
 }
